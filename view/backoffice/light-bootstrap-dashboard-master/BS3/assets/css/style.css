@@ -1,0 +1,170 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Sidebar */
+.sidebar {
+    background: #6c5ce7;
+    color: white;
+    width: 250px;
+    position: fixed;
+    height: 100%;
+    padding-top: 20px;
+    overflow-y: auto;
+}
+
+.sidebar .logo a {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.sidebar ul.nav {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul.nav li {
+    padding: 10px 20px;
+}
+
+.sidebar ul.nav li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar ul.nav li.active a {
+    background: #4834d4;
+    border-radius: 5px;
+}
+
+/* Main Panel */
+.main-panel {
+    margin-left: 250px;
+    padding: 20px;
+}
+
+.navbar {
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 20px;
+}
+
+.navbar-brand {
+    font-size: 20px;
+    font-weight: bold;
+    color: #6c5ce7;
+}
+
+/* Content Tables */
+.table {
+    background: #fff;
+    border-collapse: collapse;
+    margin-top: 20px;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+.table th, .table td {
+    text-align: left;
+    padding: 12px;
+}
+
+.table thead th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Buttons */
+button.btn {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+button.btn-info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+button.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+button.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+button.btn:hover {
+    opacity: 0.8;
+}
+
+/* Modal */
+.modal-content {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+.modal {
+    display: none; /* Masque le modal au chargement */
+    
+}
+.modal.show {
+    display: block; /* Visible uniquement quand activé */
+    visibility: visible;
+}
+
+
+.modal-header {
+    border-bottom: 1px solid #ddd;
+    padding: 15px 20px;
+}
+
+.modal-header .modal-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    border-top: 1px solid #ddd;
+    padding: 15px 20px;
+    text-align: right;
+}
+
+/* Footer */
+.footer {
+    background: #fff;
+    border-top: 1px solid #ddd;
+    padding: 10px 20px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: calc(100% - 250px);
+    margin-left: 250px;
+}

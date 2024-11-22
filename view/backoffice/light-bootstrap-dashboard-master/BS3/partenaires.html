@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Gestion des Partenaires</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/animate.min.css" rel="stylesheet"/>
+    
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script>
+        // Function to validate the form fields
+        function validateForm(event) {
+            // Get the values from the form
+            var partnerId = document.getElementById("partnerid").value;
+            var partnerName = document.getElementById("partnerName").value;
+            var partnerEmail = document.getElementById("partnerEmail").value;
+            var partnerAddress = document.getElementById("partnerAddress").value;
+
+            // Check if ID exceeds 15 characters
+            if (partnerId.length > 15) {
+                alert("L'ID ne doit pas dépasser 15 caractères.");
+                event.preventDefault(); // Prevent form submission
+                return false;
+            }
+
+            // Check if Name exceeds 50 characters
+            if (partnerName.length > 50) {
+                alert("Le nom ne doit pas dépasser 50 caractères.");
+                event.preventDefault(); // Prevent form submission
+                return false;
+            }
+
+            // Check if Email contains "@"
+            if (!partnerEmail.includes('@')) {
+                alert("L'email doit contenir '@'.");
+                event.preventDefault(); // Prevent form submission
+                return false;
+            }
+
+            // Check if Address exceeds 50 characters
+            if (partnerAddress.length > 50) {
+                alert("L'adresse ne doit pas dépasser 50 caractères.");
+                event.preventDefault(); // Prevent form submission
+                return false;
+            }
+
+            // If all checks pass, allow form submission
+            return true;
+        }
+    </script>
+
+</head>
+<body>
+<div class="wrapper">
+    <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg">
+        <div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="#" class="simple-text">Creative Tim</a>
+            </div>
+            <ul class="nav">
+                <li><a href="dashboard.html"><i class="pe-7s-graph"></i><p>Dashboard</p></a></li>
+                <li><a href="user.html"><i class="pe-7s-user"></i><p>User Profile</p></a></li>
+                <li class="active"><a href="partenaires.html"><i class="pe-7s-users"></i><p>Partenaires</p></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main-panel">
+        <nav class="navbar navbar-default navbar-fixed">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Gestion des Partenaires</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="content">
+            <div class="container-fluid">
+                <!-- Section Partenaire -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Partenaires</h4>
+                                <p class="category">Liste des partenaires existants</p>
+                            </div>
+                            <div class="content table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <th>ID</th>
+                                        <th>Nom</th>
+                                        <th>Email</th>
+                                        <th>Adresse</th>
+                                        <th>Actions</th>
+                                    </thead>
+                                    <tbody id="partnerTable">
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Traveltodo</td>
+                                            <td>client@traveltodo.com</td>
+                                            <td>Tunis</td>
+                                            <td>
+                                                <button class="btn btn-info btn-sm edit-partner">Modifier</button>
+                                                <button class="btn btn-danger btn-sm delete-partner">Supprimer</button>
+                                            </td>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>La cigale Tabarka</td>
+                                                <td>info@lacigaletabarka.com</td>
+                                                <td>Tabarka</td>
+                                                <td>
+                                                    <button class="btn btn-info btn-sm edit-partner">Modifier</button>
+                                                    <button class="btn btn-danger btn-sm delete-partner">Supprimer</button>
+                                                </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button class="btn btn-success" data-toggle="modal" data-target="#partnerModal">Ajouter un Partenaire</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Contrats -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Contrats</h4>
+                                <p class="category">Liste des contrats associés</p>
+                            </div>
+                            <div class="content table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <th>ID</th>
+                                        <th>Partenaire</th>
+                                        <th>Type</th>
+                                        <th>Durée</th>
+                                        <th>Actions</th>
+                                    </thead>
+                                    <tbody id="contractTable">
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Traveltodo</td>
+                                            <td>Publicit</td>
+                                            <td>12 mois</td>
+                                            <td>
+                                                <button class="btn btn-info btn-sm edit-contract">Modifier</button>
+                                                <button class="btn btn-danger btn-sm delete-partner" data-id="${partner.id}">Supprimer</button>
+
+                                            </td>
+                                        </tr>
+                                    
+                                    
+                                        <tr>
+                                            <td>2</td>
+                                            <td>La cigale Tabarka</td>
+                                            <td>commercial</td>
+                                            <td>24 mois</td>
+                                            <td>
+                                                <button class="btn btn-info btn-sm edit-contract">Modifier</button>
+                                                <button class="btn btn-danger btn-sm delete-contract">Supprimer</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button class="btn btn-success" data-toggle="modal" data-target="#contractModal">Ajouter un Contrat</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modals -->
+        <!-- Partenaire Modal -->
+        <div class="modal fade" id="partnerModal" tabindex="-1" role="dialog" aria-labelledby="partnerModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="partnerModalLabel">Ajouter/Modifier un Partenaire</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="partnerForm" method="POST" action="manage_partenaire.php">
+                        <div class="modal-body">
+                            <div class="form-group"> 
+                                <label>id</label>
+                                <input type="number" class="form-control" id="partnerid" required>
+                            </div>
+                            <div class="form-group"> 
+                                <label>Nom</label>
+                                <input type="text" class="form-control" id="partnerName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" id="partnerEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Adresse</label>
+                                <input type="text" class="form-control" id="partnerAddress" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contrat Modal -->
+        <div class="modal fade" id="contractModal" tabindex="-1" role="dialog" aria-labelledby="contractModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="contractModalLabel">Ajouter/Modifier un Contrat</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="contractForm" method="POST" action="manage_partenaire.php>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Partenaire</label>
+                                <select class="form-control" id="contractPartner" required>
+                                    <option value="1">Traveltodo</option>
+                                    <option value="2">La cigale Tabarka</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Type</label>
+                                <input type="text" class="form-control" id="contractType" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Durée (mois)</label>
+                                <input type="number" class="form-control" id="contractDuration" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <p class="copyright pull-right">
+                    &copy; <script>document.write(new Date().getFullYear())</script> Creative Tim
+                </p>
+            </div>
+        </footer>
+    </div>
+</div>
+
+<script src="assets/js/jquery.3.2.1.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/light-bootstrap-dashboard.js?v=1.4.0"></script>
+<script src="assets/js/demo.js"></script>
+
+</body>
+</html>
