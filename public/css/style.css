@@ -1,0 +1,130 @@
+/* Make the entire body use the background image */
+body {
+    background-image: url('../Uploads/1.jpg'); /* Correct path to the image */
+    background-size: cover; /* Ensure image covers the entire screen */
+    background-position: center center; /* Center the image */
+    background-attachment: fixed; /* Keep background fixed during scrolling */
+    background-color: rgba(0, 0, 0, 0.5); /* Add a transparent overlay */
+    margin: 0;
+    padding: 0;
+    color: white; /* White text for contrast */
+    font-family: Arial, sans-serif; /* Font family */
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    min-height: 100vh; /* Ensure the body takes up at least the full height */
+    flex-direction: column; /* Stack content vertically */
+}
+
+/* Center the container and align content to the middle */
+.main-container {
+    background-color: rgba(0, 0, 0, 0.7); /* Make the container slightly dark for contrast */
+    padding: 30px;
+    border-radius: 10px; /* Round the edges */
+    max-width: 900px;
+    width: 100%;
+    text-align: center; /* Center the content inside */
+}
+
+/* Style for forms */
+form {
+    margin: 20px 0;
+    text-align: center; /* Align form content to the center */
+}
+
+form input[type="file"],
+form textarea,
+form button {
+    width: 80%;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+}
+
+form button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+/* Style for posts */
+.posts-section {
+    margin-top: 30px;
+    text-align: center; /* Center the posts inside the section */
+}
+
+.post-item {
+    background-color: rgba(0, 0, 0, 0.6); /* Darker background for posts */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center; /* Align content inside post item to the center */
+}
+
+.post-item img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.post-item p {
+    font-size: 18px;
+    margin-top: 15px;
+}
+
+.comments {
+    margin-top: 15px;
+}
+
+.comments p {
+    font-size: 16px;
+}
+
+.comment-form {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.comment-form textarea {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.comment-form button {
+    padding: 10px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.comment-form button:hover {
+    background-color: #0b7dda;
+}
+
+/* Likes button */
+button[type="submit"] {
+    background-color: #ff6f61;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #ff4c43;
+}
