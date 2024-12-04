@@ -1,14 +1,17 @@
 <?php
-$servername = "localhost";  // Database server (localhost for local development)
-$username = "root";         // Database username
-$password = "";             // Database password (empty for default XAMPP)
-$dbname = "monument_site";  // Database name
+$dsn = 'mysql:host=localhost;dbname=monument_site;charset=utf8mb4';  // Data Source Name
+$username = 'root';  // Database username
+$password = '';      // Database password (empty for default XAMPP)
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+try {
+    // Create a new PDO instance
+    $pdo = new PDO($dsn, $username, $password);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    // Set PDO attributes for better error handling
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    // Handle connection error
+    die("Database connection failed: " . $e->getMessage());
 }
 ?>

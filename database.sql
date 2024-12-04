@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS posts (
     comment TEXT,                       -- Comment associated with the post
     likes INT DEFAULT 0,                -- Like counter for the post
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of when the post was created
+    
 );
 
 -- Create the comments table

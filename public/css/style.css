@@ -1,4 +1,4 @@
-/* Make the entire body use the background image */
+/* Body styles */
 body {
     background-image: url('../Uploads/1.jpg'); /* Correct path to the image */
     background-size: cover; /* Ensure image covers the entire screen */
@@ -16,7 +16,7 @@ body {
     flex-direction: column; /* Stack content vertically */
 }
 
-/* Center the container and align content to the middle */
+/* Main container styles */
 .main-container {
     background-color: rgba(0, 0, 0, 0.7); /* Make the container slightly dark for contrast */
     padding: 30px;
@@ -26,40 +26,14 @@ body {
     text-align: center; /* Center the content inside */
 }
 
-/* Style for forms */
-form {
-    margin: 20px 0;
-    text-align: center; /* Align form content to the center */
-}
-
-form input[type="file"],
-form textarea,
-form button {
-    width: 80%;
-    padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-}
-
-form button {
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
-}
-
-form button:hover {
-    background-color: #45a049;
-}
-
 /* Style for posts */
 .posts-section {
     margin-top: 30px;
-    text-align: center; /* Center the posts inside the section */
 }
 
+/* Individual post item styles */
 .post-item {
+    position: relative; /* Position relative for absolute positioning of delete button */
     background-color: rgba(0, 0, 0, 0.6); /* Darker background for posts */
     border-radius: 8px;
     padding: 20px;
@@ -79,52 +53,72 @@ form button:hover {
     margin-top: 15px;
 }
 
-.comments {
-    margin-top: 15px;
+/* Delete button styles */
+.delete-form {
+    position: absolute;
+    top: 10px; /* Position at the top */
+    left: 10px; /* Position on the left */
 }
 
-.comments p {
-    font-size: 16px;
-}
-
-.comment-form {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;
-}
-
-.comment-form textarea {
-    width: 80%;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    margin-right: 10px;
-}
-
-.comment-form button {
-    padding: 10px;
-    background-color: #2196F3;
+.delete-button {
+    background-color: #e74c3c; /* Red background for delete */
     color: white;
     border: none;
+    border-radius: 5px; /* Slightly round edges */
+    padding: 5px 10px; /* Add some padding */
     cursor: pointer;
-    border-radius: 5px;
+    position: absolute; /* Position it in the top right */
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
 }
 
-.comment-form button:hover {
-    background-color: #0b7dda;
+.delete-button:hover {
+    background-color: #c0392b; /* Darker red on hover */
 }
 
-/* Likes button */
+/* Align like and comment buttons side by side */
+.post-actions {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: space-between; /* Space them evenly */
+    margin-top: 10px; /* Space above actions */
+}
+
+.like-form {
+    margin-right: 10px; /* Space between like and comment */
+}
+
+textarea {
+    width: 70%; /* Adjust text area width */
+    margin-right: 5px; /* Space between textarea and button */
+}
+
+/* Styles for buttons */
 button[type="submit"] {
-    background-color: #ff6f61;
+    padding: 10px;
+    background-color: #4CAF50; /* Green background for like button */
     color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
     border: none;
-    font-size: 16px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
 button[type="submit"]:hover {
-    background-color: #ff4c43;
+    background-color: #45a049; /* Darker green on hover */
+}
+button[type="submit"] {
+    padding: 10px;
+    margin-right: 5px; /* Add space between buttons */
+}
+
+/* Comment button styles */
+.comment-form button {
+    background-color: #2196F3; /* Blue button for comments */
+}
+
+.comment-form button:hover {
+    background-color: #0b7dda; /* Darker blue on hover */
+}
+.comments textarea {
+    width: 100%; /* Full width */
+    margin-top: 10px; /* Space above textarea */
 }

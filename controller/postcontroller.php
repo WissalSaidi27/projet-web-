@@ -22,7 +22,18 @@ class PostController {
     public function addComment($postId, $commentText) {
         $this->postModel->addComment($postId, $commentText);  // Call the model method to add a comment
     }
+    public function removePost($postId) {
+        $this->postModel->deletePost($postId);
+    }
 
+    public function togglePostVisibility($postId) {
+        $stmt = $this->pdo->prepare("UPDATE posts SET is_hidden = NOT is_hidden WHERE id = :id");
+        $stmt->execute(['id' => $postId]);
+    }
+    
+    public function removeComment($commentId) {
+        $this->postModel->deleteComment($commentId);
+    }
     // Method to fetch all posts
     public function fetchPosts() {
         return $this->postModel->getAllPosts();  // Call the model method to fetch all posts

@@ -3,42 +3,58 @@
 require_once __DIR__ . '/../config.php';  // Adjusted path to config.php
 
 class Post1 {
-    private $conn;
+    private $pdo;
 
     public function __construct() {
-        global $conn;  // Using the global $conn variable from config.php
-        $this->conn = $conn;
+        global $pdo;  // Using the global $pdo variable from config.php
+        $this->pdo = $pdo;
     }
 
     public function createPost($imagePath, $comment) {
-        $stmt = $this->conn->prepare("INSERT INTO posts (image_path, comment) VALUES (?, ?)");
-        $stmt->bind_param('ss', $imagePath, $comment);
-        $stmt->execute();
+        $query = "INSERT INTO posts (image_path, comment) VALUES (:image_path, :comment)";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([
+            ':image_path' => $imagePath,
+            ':comment' => $comment,
+        ]);
     }
-
+    public function deletePost($postId) {
+        $query = "DELETE FROM posts WHERE id = :post_id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([':post_id' => $postId]);
+    }
+    
+    public function deleteComment($commentId) {
+        $query = "DELETE FROM comments WHERE id = :comment_id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([':comment_id' => $commentId]);
+    }
     public function getAllPosts() {
-        $result = $this->conn->query("SELECT * FROM posts ORDER BY created_at DESC");
-        return $result->fetch_all(MYSQLI_ASSOC);
+        $query = "SELECT * FROM posts ORDER BY created_at DESC";
+        $stmt = $this->pdo->query($query);
+        return $stmt->fetchAll();
     }
 
     public function incrementLikes($postId) {
-        $stmt = $this->conn->prepare("UPDATE posts SET likes = likes + 1 WHERE id = ?");
-        $stmt->bind_param('i', $postId);
-        $stmt->execute();
+        $query = "UPDATE posts SET likes = likes + 1 WHERE id = :post_id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([':post_id' => $postId]);
     }
 
     public function addComment($postId, $comment) {
-        $stmt = $this->conn->prepare("INSERT INTO comments (post_id, comment) VALUES (?, ?)");
-        $stmt->bind_param('is', $postId, $comment);
-        $stmt->execute();
+        $query = "INSERT INTO comments (post_id, comment) VALUES (:post_id, :comment)";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([
+            ':post_id' => $postId,
+            ':comment' => $comment,
+        ]);
     }
 
     public function getCommentsByPostId($postId) {
-        $stmt = $this->conn->prepare("SELECT * FROM comments WHERE post_id = ? ORDER BY created_at ASC");
-        $stmt->bind_param('i', $postId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        $query = "SELECT * FROM comments WHERE post_id = :post_id ORDER BY created_at ASC";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([':post_id' => $postId]);
+        return $stmt->fetchAll();
     }
 }
 ?>
