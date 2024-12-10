@@ -4,12 +4,11 @@ require_once '../config.php'; // Adjust the path if necessary
 
 // Admin access check
 $adminKey = '123';
-
 if (!isset($_GET['key']) || $_GET['key'] !== $adminKey) {
     die("Access denied. Invalid key.");
 }
 
-// Handle post deletion
+// Handle post deletion and visibility toggle
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['delete_post'])) {
         $postId = $_POST['post_id'];
@@ -24,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (isset($_POST['toggle_visibility'])) {
         $postId = $_POST['post_id'];
         try {
+            // Toggle visibility
             $stmt = $pdo->prepare("UPDATE posts SET is_hidden = NOT is_hidden WHERE id = :id");
             $stmt->execute(['id' => $postId]);
             header('Location: admin.php?key=123');
@@ -34,12 +34,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Fetch posts from the database
-try {
-    $stmt = $pdo->query("SELECT id, comment AS title, likes, is_hidden FROM posts");
-    $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Could not retrieve posts: " . $e->getMessage());
+// Search functionality
+$searchQuery = '';
+$posts = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search_post'])) {
+    $searchQuery = $_POST['search_query'];
+    if (!empty($searchQuery)) {
+        try {
+            $stmt = $pdo->prepare("SELECT id, comment AS title, likes, is_hidden FROM posts WHERE id = :id");
+            $stmt->execute(['id' => $searchQuery]);
+            $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die("Could not search for posts: " . $e->getMessage());
+        }
+    }
+}
+
+// Fetch all posts if no search query
+if (empty($posts) && empty($searchQuery)) {
+    try {
+        $stmt = $pdo->query("SELECT id, comment AS title, likes, is_hidden FROM posts");
+        $posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("Could not retrieve posts: " . $e->getMessage());
+    }
 }
 ?>
 
@@ -53,6 +72,12 @@ try {
 <body>
     <h1>Admin Dashboard</h1>
     <h2>Manage Posts</h2>
+
+    <!-- Search Form -->
+    <form action="" method="POST">
+        <input type="text" name="search_query" placeholder="Search by Post ID" value="<?php echo htmlspecialchars($searchQuery); ?>">
+        <button type="submit" name="search_post">Search</button>
+    </form>
     
     <table>
         <tr>
@@ -62,28 +87,34 @@ try {
             <th>Visibility</th>
             <th>Actions</th>
         </tr>
-        <?php foreach ($posts as $post): ?>
+        <?php if (!empty($posts)): ?>
+            <?php foreach ($posts as $post): ?>
+                <tr>
+                    <td><?php echo $post['id']; ?></td>
+                    <td><?php echo htmlspecialchars($post['title']); ?></td>
+                    <td><?php echo $post['likes']; ?></td>
+                    <td><?php echo $post['is_hidden'] ? 'Hidden' : 'Visible'; ?></td>
+                    <td>
+                        <!-- Delete Post Button -->
+                        <form action="" method="POST" style="display:inline;">
+                            <input type="hidden" name="post_id" value="<?php echo $post['id']; ?>">
+                            <button type="submit" name="delete_post">Delete Post</button>
+                        </form>
+                        <!-- Toggle Visibility Button -->
+                        <form action="" method="POST" style="display:inline;">
+                            <input type="hidden" name="post_id" value="<?php echo $post['id']; ?>">
+                            <button type="submit" name="toggle_visibility">
+                                <?php echo $post['is_hidden'] ? 'Unhide Post' : 'Hide Post'; ?>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
             <tr>
-                <td><?php echo $post['id']; ?></td>
-                <td><?php echo htmlspecialchars($post['title']); ?></td>
-                <td><?php echo $post['likes']; ?></td>
-                <td><?php echo $post['is_hidden'] ? 'Hidden' : 'Visible'; ?></td>
-                <td>
-                    <!-- Delete Post Button -->
-                    <form action="" method="POST" style="display:inline;">
-                        <input type="hidden" name="post_id" value="<?php echo $post['id']; ?>">
-                        <button type="submit" name="delete_post">Delete Post</button>
-                    </form>
-                    <!-- Toggle Visibility Button -->
-                    <form action="" method="POST" style="display:inline;">
-                        <input type="hidden" name="post_id" value="<?php echo $post['id']; ?>">
-                        <button type="submit" name="toggle_visibility">
-                            <?php echo $post['is_hidden'] ? 'Unhide Post' : 'Hide Post'; ?>
-                        </button>
-                    </form>
-                </td>
+                <td colspan="5">No posts found.</td>
             </tr>
-        <?php endforeach; ?>
+        <?php endif; ?>
     </table>
 </body>
 </html>

@@ -7,8 +7,16 @@ class Post1 {
 
     public function __construct() {
         global $pdo;  // Using the global $pdo variable from config.php
-        $this->pdo = $pdo;
+        $this->pdo = new PDO('mysql:host=localhost;dbname=monument_site', 'root', '');
     }
+    public function searchPostById($id) {
+        $query = "SELECT id, comment AS title, likes, is_hidden FROM posts WHERE id = :id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    
 
     public function createPost($imagePath, $comment) {
         $query = "INSERT INTO posts (image_path, comment) VALUES (:image_path, :comment)";
@@ -36,10 +44,18 @@ class Post1 {
     }
 
     public function incrementLikes($postId) {
-        $query = "UPDATE posts SET likes = likes + 1 WHERE id = :post_id";
+        $query = "UPDATE posts SET likes = likes + 1 WHERE id = :id";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute([':post_id' => $postId]);
+        $stmt->execute([':id' => $postId]);
     }
+    
+    public function getLikesCount($postId) {
+        $query = "SELECT likes FROM posts WHERE id = :id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([':id' => $postId]);
+        return $stmt->fetchColumn(); // Returns the updated likes count
+    }
+    
 
     public function addComment($postId, $comment) {
         $query = "INSERT INTO comments (post_id, comment) VALUES (:post_id, :comment)";
@@ -55,6 +71,15 @@ class Post1 {
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([':post_id' => $postId]);
         return $stmt->fetchAll();
+    }   
+    public function updateComment($commentId, $commentText) {
+        $query = "UPDATE comments SET comment = :comment WHERE id = :id";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([
+            ':comment' => $commentText,
+            ':id' => $commentId,
+        ]);
     }
+    
 }
 ?>

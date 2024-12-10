@@ -3,25 +3,27 @@ CREATE DATABASE IF NOT EXISTS monument_site;
 
 -- Use the database
 USE monument_site;
+ALTER TABLE posts ADD INDEX (id);
+ALTER TABLE comments ADD INDEX (post_id);
 
 -- Create the posts table
-CREATE TABLE IF NOT EXISTS posts (
-    id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique ID for each post
-    image_path VARCHAR(255) NOT NULL,   -- Path to the uploaded image
-    comment TEXT,                       -- Comment associated with the post
-    likes INT DEFAULT 0,                -- Like counter for the post
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of when the post was created
-    
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    image_path VARCHAR(255) NOT NULL,
+    comment TEXT,
+    likes INT DEFAULT 0,
+    is_hidden BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create the comments table
-CREATE TABLE IF NOT EXISTS comments (
-    id INT AUTO_INCREMENT PRIMARY KEY,  -- Unique ID for each comment
-    post_id INT NOT NULL,               -- Reference to the post being commented on
-    comment TEXT NOT NULL,              -- Text of the comment
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Timestamp of when the comment was made
-    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE -- Delete comments when the post is deleted
+CREATE TABLE comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    post_id INT NOT NULL,
+    comment TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
 );
+
 
 -- Insert some sample data into posts table (Optional)
 INSERT INTO posts (image_path, comment, likes) VALUES
